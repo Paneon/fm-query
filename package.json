@@ -25,27 +25,20 @@
   "scripts": {
     "init": "rimraf .validate.json && rimraf .jshintrc",
     "clean": "rimraf dist",
-
     "start": "tsc -w",
-
     "prebuild": "npm run clean",
     "build": "tsc",
     "build:doc": "doctoc --github --title \"## Contents\" ./",
-
     "lint": "eslint source test",
     "validate": "npm run lint && npm run build && npm test",
     "validate-dev": "npm run lint && npm run build && npm test | faucet",
-
     "pretest": "tsc test/*.ts --module commonjs",
     "test": "mocha dist/test/",
     "test:w": "mocha dist/test/ -w",
-
     "audit": "nsp package",
-
     "deps": "npm run deps:missing && npm run deps:extra",
     "deps:missing": "dependency-check package.json",
     "deps:extra": "dependency-check package.json --extra --no-dev --ignore",
-
     "precheck": "npm run validate",
     "check": "npm run audit && npm run deps && npm outdated --depth 0"
   },
@@ -54,6 +47,7 @@
   ],
   "devDependencies": {
     "chai": "^3.5.0",
+    "babel-eslint": "^6.0.2",
     "dependency-check": "^2.5.0",
     "doctoc": "^0.14.2",
     "eslint": "^1.1.0",
@@ -76,5 +70,6 @@
     "sinon": "^1.17.3",
     "typescript": "^1.8.9"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }
