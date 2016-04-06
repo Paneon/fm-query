@@ -1,10 +1,10 @@
 
 
-//import {extend} from "./functions";
+import {extend} from "./functions";
 
 interface IOptions {
-  protocol:string;
-  host:string;
+  protocol: string;
+  host: string;
 }
 
 
@@ -13,25 +13,24 @@ export default class ServerConnection {
   // Default Options
   private options = {
     protocol: "https",
-    host:""
+    host: ""
   };
 
   private url = "";
 
   private databases = [];
 
-  constructor(options?){
+  constructor(options?) {
 
-    //this.options = Object.keys(this.options).map( key => { return options[key] || this.options[key]; });
-
+    this.options = extend({}, this.options, options);
 
   }
 
-  getDatabaseNames(){
+  getDatabaseNames() {
     return this.databases;
   }
 
-  getDatabase(name:string){
+  getDatabase(name: string) {
 
   }
 }

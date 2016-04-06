@@ -12,12 +12,12 @@
   },
   "filesGlob": [
     "./source/**/*.ts",
-    "!./node_modules/**/*.ts"
+    "!./node_modules/**/*.ts",
+    "!./test/**/*.ts"
   ],
   "files": [
     "./source/index.ts",
     "./source/ServerConnection.ts",
-    "./source/functions.ts",
-    "./test/ServerConnectionTest.ts"
+    "./source/functions.ts"
   ]
 }

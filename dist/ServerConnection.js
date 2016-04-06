@@ -1,4 +1,5 @@
 "use strict";
+var functions_1 = require("./functions");
 var ServerConnection = (function () {
     function ServerConnection(options) {
         this.options = {
@@ -7,6 +8,7 @@ var ServerConnection = (function () {
         };
         this.url = "";
         this.databases = [];
+        this.options = functions_1.extend({}, this.options, options);
     }
     ServerConnection.prototype.getDatabaseNames = function () {
         return this.databases;
