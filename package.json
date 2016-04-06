@@ -49,7 +49,7 @@
     "chai": "^3.5.0",
     "babel-eslint": "^6.0.2",
     "dependency-check": "^2.5.0",
-    "doctoc": "^0.14.2",
+    "doctoc": "^1.0.0",
     "eslint": "^1.1.0",
     "eslint-loader": "^1.0.0",
     "faucet": "0.0.1",
