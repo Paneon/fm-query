@@ -37,8 +37,8 @@
     "validate-dev": "npm run lint && npm run build && npm test | faucet",
 
     "pretest": "tsc test/*.ts --module commonjs",
-    "test": "mocha",
-    "test:w": "mocha -w",
+    "test": "mocha dist/test/",
+    "test:w": "mocha dist/test/ -w",
 
     "audit": "nsp package",
 
