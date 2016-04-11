@@ -3,20 +3,20 @@ var functions_1 = require("./functions");
 var Commands = {};
 var FMQueryServer = (function () {
     function FMQueryServer(options) {
-        this.options = {
+        this.requestUrl = "";
+        this.databases = [];
+        var defaultOptions = {
             protocol: "https",
             host: "",
             username: "",
             password: "",
             port: 0,
         };
-        this.requestUrl = "";
-        this.databases = [];
-        this.options = functions_1.extend({}, this.options, options);
-        this.protocol = this.options.protocol;
-        this.host = (this.options.port > 0) ? this.options.host + ":" + this.options.port : this.options.host;
-        this.username = this.options.username;
-        this.password = this.options.password;
+        options = functions_1.extend(defaultOptions, options);
+        this.protocol = options.protocol;
+        this.host = (options.port > 0) ? options.host + ":" + options.port : options.host;
+        this.username = options.username;
+        this.password = options.password;
         this.requestUrl = this.buildRequestUrl(this.protocol, this.host, this.username, this.password);
     }
     FMQueryServer.prototype.getDatabaseNames = function () {
