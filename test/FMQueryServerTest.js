@@ -1,3 +1,4 @@
+/// <reference path="../dist/FMQueryServer" />
 "use strict";
 
 const chai = require("chai");
