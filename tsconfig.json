@@ -17,7 +17,8 @@
   ],
   "files": [
     "./source/index.ts",
-    "./source/ServerConnection.ts",
+    "./source/FMQueryServer.ts",
+    "./source/FMQueryDatabase.ts",
     "./source/functions.ts"
   ]
 }

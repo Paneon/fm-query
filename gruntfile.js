@@ -1,108 +1,115 @@
+var path = require("path");
+
+module.exports = function (grunt) {
+    "use strict";
 
 
-module.exports = function(grunt) {
-  "use strict";
+    var pkg = grunt.file.readJSON("package.json");
 
-  var path = require("path");
+    var paths = {
 
-  var pkg = grunt.file.readJSON("package.json");
+        source: path.join("source"),
+        build: path.join("dist")
 
-  var paths = {
+    };
 
-    source: path.join("source"),
-    build: path.join("dist")
+    var bannerTemplate = function (name) {
 
-  };
+        var version = " v" + pkg.version;
 
-  var bannerTemplate = function(name){
+        var banner =
+            '/*!\n' +
+            ' * ' + name + version + ' - <%=grunt.template.today("yyyy-mm-dd HH:MM")%>\n' +
+            ' * Copyright (c) <%=grunt.template.today("yyyy")%> ' + pkg.author + '\n' +
+            ' */';
 
-    var version = " v"+pkg.version;
+        return banner;
+    };
 
-    var banner =
-      '/*!\n' +
-      ' * '+name+version+' - <%=grunt.template.today("yyyy-mm-dd HH:MM")%>\n' +
-      ' * Copyright (c) <%=grunt.template.today("yyyy")%> '+pkg.author+'\n'+
-      ' */';
+    grunt.initConfig({
+        pkg: grunt.file.readJSON("package.json"),
 
-    return banner;
-  };
+        clean: {
+            build: ['dist']
+        },
 
-  grunt.initConfig({
-    pkg: grunt.file.readJSON("package.json"),
+        typescript: {
+            // Tests
+            tests: {
+                src: ["test/**/*.ts"],
+                dest: "test/",
+                options: {
+                    module: 'system',
+                    target: 'es5',
+                    //jsx: 'react'
+                    sourceMap: false,
+                    declaration: false,
+                    experimentalDecorators: true,
+                    noImplicitAny: false
+                }
+            }
+        },
 
-    clean: {
-      build: ['dist']
-    },
+        uglify: {
 
-    typescript: {
-      source: {
+            script: {
+                'dist/index.min.js': ['dist/index.js']
+            }
 
-      },
-      test: {
+        },
 
-      }
-    },
+        /*
+         * Watches for changes in files and executes the tasks
+         */
+        watch: {
 
-    uglify: {
+            /**
+             * Watch for js changes during development and build Dev-Files
+             */
+            ts: {
+                options: {cwd: paths.js},
+                files: ["**/*.ts", "**/*.tsx"],
+                tasks: ["browserify:script"]
+            }
 
-      script: {
-        'dist/index.min.js': ['dist/index.js']
-      }
+        }
+    });
 
-    },
+    grunt.loadNpmTasks('grunt-typescript');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks("grunt-contrib-copy");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-contrib-watch");
 
-    /*
-     * Watches for changes in files and executes the tasks
+    grunt.loadNpmTasks("grunt-shell");
+
+    /**
+     * Default Build task
      */
-    watch: {
+    grunt.registerTask("default", [
+        "scripts-dev"
+    ]);
 
-      /**
-       * Watch for js changes during development and build Dev-Files
-       */
-      ts: {
-        options: { cwd: paths.js },
-        files: [ "**/*.ts", "**/*.tsx" ],
-        tasks: [ "browserify:script" ]
-      }
+    grunt.registerTask("build", [
+        "scripts-min"
+    ]);
 
-    }
-  });
+    /**
+     * Scripts: Production
+     */
+    grunt.registerTask("scripts-min", [
+        "clean:build",
+        "uglify:script"
+    ]);
 
-  grunt.loadNpmTasks('grunt-typescript');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks("grunt-contrib-copy");
-  grunt.loadNpmTasks("grunt-contrib-uglify");
-  grunt.loadNpmTasks("grunt-contrib-watch");
+    /**
+     * Scripts: Development
+     */
+    grunt.registerTask('scripts-dev', [
+        "clean:build"
+    ]);
 
-  grunt.loadNpmTasks("grunt-shell");
-
-  /**
-   * Default Build task
-   */
-  grunt.registerTask("default", [
-    "scripts-dev"
-  ]);
-
-  grunt.registerTask("build", [
-    "scripts-min"
-  ]);
-
-  /**
-   * Scripts: Production
-   */
-  grunt.registerTask("scripts-min", [
-    "clean:build",
-    "uglify:script"
-  ]);
-
-  /**
-   * Scripts: Development
-   */
-  grunt.registerTask('scripts-dev', [
-    "clean:build"
-  ]);
-
-  grunt.event.on("watch", function(action, filepath) {
-    grunt.log.writeln(filepath + " has " + action);
-  });
+    grunt.event.on("watch", function (action, filepath) {
+        grunt.log.writeln(filepath + " has " + action);
+    });
 };
